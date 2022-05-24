@@ -198,7 +198,7 @@ export function $isLeafNode(node: ?LexicalNode): boolean %checks {
 }
 
 export function $setNodeKey(node: LexicalNode, existingKey: ?NodeKey): void {
-  if (existingKey != null) {
+  if (existingKey === 'root') {
     node.__key = existingKey;
     return;
   }
@@ -206,7 +206,7 @@ export function $setNodeKey(node: LexicalNode, existingKey: ?NodeKey): void {
   errorOnInfiniteTransforms();
   const editor = getActiveEditor();
   const editorState = getActiveEditorState();
-  const key = generateRandomKey();
+  const key = existingKey ? existingKey : generateRandomKey();
   editorState._nodeMap.set(key, node);
   // TODO Split this function into leaf/element
   if ($isElementNode(node)) {
